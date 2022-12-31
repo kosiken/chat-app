@@ -20,15 +20,15 @@ const ChatBox: React.FC<ChatBoxProps> = ({data, active = false}) => {
         <Box  padding={[0, 10]} >
             <Box flex={false} row space="between" margin={[0,0, 10]}>
                 <Typography bold>
-                    {reduceString(data.source.name, 30)}
+                    {reduceString(data.source?.name || "None", 30)}
                 </Typography>
                 <Typography gray>
-                    {formatDate(data.publishedAt, 'HH:MM')}
+                    {formatDate(data.publishedAt || new Date(), 'HH:MM')}
                 </Typography>
             </Box>
             <Box flex={false} row>
                 <Typography caption gray={!active} style={styles.message}>
-                    {reduceString(data.description, 40)}
+                    {reduceString(data.description || "None", 40)}
                 </Typography>
 
                 {active && (<View style={styles.active} />)}

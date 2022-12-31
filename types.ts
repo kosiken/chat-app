@@ -5,9 +5,9 @@ export type HeadLineResponse = {
     };
     author: string;
     title: string;
-    description: string;
+    description?: string;
     url: string;
-    urlToImage: string;
+    urlToImage?: string;
     publishedAt: Date;
     content: string;
 }

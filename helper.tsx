@@ -14,3 +14,11 @@ export function formatDate(
   export function reduceString(text: string, length = 10): string {
     return text.length > length ? text.substring(0, length - 3) + '...' : text;
   }
+
+  export function delayed(interval: number) {
+    return new Promise<void>((resolve) => {
+        setTimeout(() => {
+            resolve()
+        }, interval)
+    })
+}

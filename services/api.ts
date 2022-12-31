@@ -19,7 +19,7 @@ interface ApiRespose<T> {
   errorData?: any;
   code: number;
 }
-
+// We use this base class to build api request calls
 abstract class ApiBase {
   private api: AxiosInstance;
 

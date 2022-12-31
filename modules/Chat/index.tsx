@@ -1,8 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, TextInputProps } from 'react-native';
+import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, TextInputProps, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from '@expo/vector-icons/MaterialIcons';
 import { useQuery } from 'react-query';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Input from '../../components/Input';
 import { useEffect, useState } from 'react';
 import Box from '../../components/Box';
@@ -19,7 +18,8 @@ const ChatScreen = () => {
     const fetchHeadlines = async () => {
         const response = await api.loadHeadlines({
             country: 'us',
-            apiKey: Constants.expoConfig.extra.apiKey
+            apiKey: Constants.expoConfig?.extra?.apiKey || 'none'
+
         })
 
         return response.data.articles;
@@ -47,24 +47,27 @@ const ChatScreen = () => {
             <StatusBar style="auto" />
             <SafeAreaView style={styles.safeArea}>
 
-                <Box row center flex={false} margin={[0, 0, 10]}>
+                <Box row center flex={false} margin={[0, 0, 10]} padding={[0, 10]}>
                     <Icon name="arrow-back-ios" size={24} color="black" />
                     <Typography>back</Typography>
                 </Box>
 
+                <Box flex={false}  padding={[0, 10]}>
 
-                <Typography h1 bold style={styles.headerText}>Search </Typography>
+                <Typography h1 bold style={styles.headerText}>Search</Typography>
                 <Input autoCapitalize="none" onChangeText={changeSearchTerm} value={searchTerm} placeholder="Search by user" />
 
+                </Box>
 
                 {isLoading && (
                     <Box flex={false} middle center>
-                        <ActivityIndicator size={"small"} />
+                        <ActivityIndicator accessibilityLabel="spinner" size={"small"} />
                     </Box>
                 )}
                 {isError && (<Typography caption color="red" style={styles.chatText}>
                     An error occurred
                 </Typography>)}
+        
                 <FlatList
                     style={{
                         flex: 1
@@ -79,13 +82,13 @@ const ChatScreen = () => {
                     data={headlines}
                     renderItem={({ item, index }) => {
                         return (
-                            <Box flex={false} margin={[10, 0]}>
-                                {(index === 0) && (<Typography h1 bold style={styles.chatText}>
-                                    Chats
-                                </Typography>)}
+                            <TouchableOpacity>
+                            <Box flex={false} margin={[10, 0]} padding={[0, 10]}>
+                                {(index === 0) && (<Typography h1 bold style={styles.chatText}>Chats</Typography>)}
 
                                 <ChatBox active={index === 0} data={item} />
                             </Box>
+                            </TouchableOpacity>
                         )
                     }}
 
@@ -106,7 +109,7 @@ const styles = StyleSheet.create({
     },
     safeArea: {
         flex: 1,
-        paddingHorizontal: 10,
+   
         paddingTop: 10
     },
     header: {
