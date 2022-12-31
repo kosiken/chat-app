@@ -18,6 +18,7 @@ const ChatScreen = () => {
     const fetchHeadlines = async () => {
         const response = await api.loadHeadlines({
             country: 'us',
+            // you may need to input your own api key from https://newsapi.org/docs
             apiKey: Constants.expoConfig?.extra?.apiKey || 'none'
 
         })
